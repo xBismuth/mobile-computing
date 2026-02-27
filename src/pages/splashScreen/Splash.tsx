@@ -24,8 +24,8 @@ const Splash: React.FC = () => {
     <IonPage>
       <IonContent fullscreen>
         <div className={`splash-screen ${fadeIn ? 'fade-in' : ''} ${fadeOut ? 'fade-out' : ''}`}>
-          <h1>Welcome to Our App</h1>
-          <p>Loading amazing things...</p>
+          <h1>Welcome to Job Bridge</h1>
+          <p>Loading opportunities things...</p>
         </div>
       </IonContent>
     </IonPage>
