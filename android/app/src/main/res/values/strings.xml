@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">jobbridge</string>
+    <string name="title_activity_main">jobbridge</string>
+    <string name="package_name">ionic.jobbridge</string>
+    <string name="custom_url_scheme">ionic.jobbridge</string>
+</resources>
