@@ -1,7 +1,6 @@
 import { IonButton } from '@ionic/react';
 import { supabase } from '../supabaseClient';
 import { useHistory } from 'react-router';
-import '../tabs/Profile.css';
 
 interface LogoutProps {
   onLogout: () => void;
