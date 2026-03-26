@@ -38,6 +38,30 @@ const Profile: React.FC<ProfileProps> = ({ onLogout }) => {
           </div>
         </div>
 
+        <div className="profile-about-wrapper">
+          <div className="profile-about-btn-container">
+            <IonButton
+              routerLink="/profile/about"
+              fill="clear"
+              className="profile-about-btn"
+            >
+              About The App
+            </IonButton>
+          </div>
+        </div>
+
+        <div className="developers-profile-wrapper">
+          <div className="developers-profile-btn-container">
+            <IonButton
+              routerLink="/profile/developers"
+              fill="clear"
+              className="developers-profile-btn"
+            >
+              Developers
+            </IonButton>
+          </div>
+        </div>
+
         {/* Logout Button */}
         <Logout onLogout={onLogout} />
 

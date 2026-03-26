@@ -78,6 +78,11 @@
   font-weight: 500;
 }
 
+.devs-header {
+  --background: #0BACE1 !important;
+  color: white !important;
+}
+
 /* Optional: subtle hover effect on card (mobile/touch friendly) */
 @media (hover: hover) {
   .contact-profile-card:hover {

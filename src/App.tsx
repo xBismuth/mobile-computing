@@ -67,6 +67,8 @@ const App: React.FC = () => {
 
           <Route exact path="/Splash" component={Splash} />
           <Route path="/profile/edit" component={EditProfile} exact />
+          <Route path="/profile/about" component={About} exact />
+          <Route path="/profile/developers" component={Contacts} exact />
 
           {/* Tabs Routes – only accessible when logged in */}
           <Route path="/tabs">
@@ -99,14 +101,6 @@ const App: React.FC = () => {
                   <IonTabButton tab="Jobs" href="/tabs/Jobs">
                     <IonIcon aria-hidden="true" icon={briefcase} />
                     <IonLabel>Jobs</IonLabel>
-                  </IonTabButton>
-                  <IonTabButton tab="About" href="/tabs/About">
-                    <IonIcon aria-hidden="true" icon={informationCircleOutline} />
-                    <IonLabel>About</IonLabel>
-                  </IonTabButton>
-                  <IonTabButton tab="Contacts" href="/tabs/Contacts">
-                    <IonIcon aria-hidden="true" icon={informationCircleOutline} />
-                    <IonLabel>Contacts</IonLabel>
                   </IonTabButton>
                   <IonTabButton tab="Profile" href="/tabs/Profile">
                     <IonIcon aria-hidden="true" icon={person} />

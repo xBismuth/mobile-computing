@@ -6,6 +6,11 @@
   color: #ffffff;
 }
 
+.about-header {
+  --background: #3168B9 !important;
+  color: white !important;
+}
+
 .about-hero {
   padding: 60px 24px 40px;
   text-align: center;

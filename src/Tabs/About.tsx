@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonRouter, IonButtons, IonBackButton } from '@ionic/react';
 import './About.css';
 
 const About: React.FC = () => {
@@ -10,6 +10,14 @@ const About: React.FC = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar class="about-header">
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tabs/profile" />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+
 
       <IonContent fullscreen className="about-content">
         {/* Large title when collapsed */}

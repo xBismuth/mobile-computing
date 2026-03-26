@@ -6,6 +6,10 @@ import {
   IonCardContent,
   IonAvatar,
   IonLabel,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
 } from '@ionic/react';
 
 import './contact.css';
@@ -13,6 +17,14 @@ import './contact.css';
 const Contacts: React.FC = () => {
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar class="devs-header">
+          <IonButtons slot="start">
+            <IonBackButton defaultHref="/tabs/profile" />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+
       <IonContent fullscreen className="contact-gradient-bg">
         <div className="contact-center-wrapper">
           <IonCard className="contact-profile-card">
