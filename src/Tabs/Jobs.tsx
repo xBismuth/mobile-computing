@@ -20,7 +20,7 @@ const Jobs: React.FC = () => {
   return (
     <IonPage>
        <IonHeader>
-          <IonToolbar class="jobs-header">
+          <IonToolbar color="primary" class="jobs-header">
               <IonTitle style={{ textAlign: 'center' }}>All Available Jobs</IonTitle>
           </IonToolbar>
         </IonHeader>
