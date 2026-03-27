@@ -5,6 +5,10 @@ JobBridge is a mobile-first job recruitment platform designed to help Filipinos 
 
 This project was developed for **CS 409 - Mobile Computing** at **Technological Institute of the Philippines - Quezon City (TIP-QC)**.
 
+📌 About the Project
+JobBridge serves as a bridge between small and large companies and job seekers who often get left behind due to high qualification requirements in traditional job hunting.
+The app focuses on speed, simplicity, and accessibility, turning the hiring process into a fast and friendly mobile experience — making it possible for more Filipinos to secure jobs and improve their livelihood.
+
 ✨ Key Features
 
 * 📋 Simple Job Posting: Recruiters can post jobs quickly with minimal forms — no complicated long requirements.
@@ -23,12 +27,8 @@ This project was developed for **CS 409 - Mobile Computing** at **Technological 
 
 * Framework: Ionic
 
-* Backend: (Supabase / Node.js - to be finalized)
-
-🚀 How to Run Locally
-
-1. Clone the repository:
+* Backend: (Supabase / Node.js)
 
    ```bash
-   git clone https://github.com/yourusername/JobBridge.git
+   git clone https://github.com/Javszs/JobBridge.git
    ```

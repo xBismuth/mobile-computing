@@ -3,7 +3,6 @@ http://ionicframework.com/docs/theming/ */
 .tab-bar {
   --background: var(--ion-color-primary);
   --color: white;
-  border-radius: 40px 40px 0 0;
 }
 .tab-bar ion-tab-button {
   --color: rgb(255, 255, 255);
