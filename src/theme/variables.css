@@ -1,2 +1,14 @@
 /* For information on how to create your own theme, please refer to:
 http://ionicframework.com/docs/theming/ */
+.tab-bar {
+  --background: var(--ion-color-primary);
+  --color: white;
+  border-radius: 40px 40px 0 0;
+}
+.tab-bar ion-tab-button {
+  --color: rgb(255, 255, 255);
+  --color-selected: rgb(0, 0, 0);
+}
+.main-tab {
+  background-color: #3168B9;
+}

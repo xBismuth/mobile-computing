@@ -73,7 +73,7 @@ const App: React.FC = () => {
           {/* Tabs Routes – only accessible when logged in */}
           <Route path="/tabs">
             {isLoggedIn ? (
-              <IonTabs>
+              <IonTabs className='main-tab'>
                 <IonRouterOutlet>
                   <Route exact path="/tabs/Home">
                     <Home />
@@ -93,7 +93,7 @@ const App: React.FC = () => {
                   </Route>
                 </IonRouterOutlet>
 
-                <IonTabBar slot="bottom">
+                <IonTabBar slot="bottom" className='tab-bar'>
                   <IonTabButton tab="Home" href="/tabs/Home">
                     <IonIcon aria-hidden="true" icon={home} />
                     <IonLabel>Home</IonLabel>
