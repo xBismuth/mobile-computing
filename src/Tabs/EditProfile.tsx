@@ -288,7 +288,7 @@ const EditProfile: React.FC = () => {
 
               {/* Form Fields */}
               <IonList className="form-list">
-                <IonItem className="custom-item">
+                <IonItem className="custom-item" lines='none'>
                   <IonLabel position="stacked" className="input-label">First Name</IonLabel>
                   <IonInput
                     value={formData.firstname}
@@ -298,7 +298,7 @@ const EditProfile: React.FC = () => {
                   />
                 </IonItem>
 
-                <IonItem className="custom-item">
+                <IonItem className="custom-item" lines='none'>
                   <IonLabel position="stacked" className="input-label">Last Name</IonLabel>
                   <IonInput
                     value={formData.lastname}
@@ -308,7 +308,7 @@ const EditProfile: React.FC = () => {
                   />
                 </IonItem>
 
-                <IonItem className="custom-item">
+                <IonItem className="custom-item" lines='none'>
                   <IonLabel position="stacked" className="input-label">Phone Number</IonLabel>
                   <IonInput
                     type="tel"
