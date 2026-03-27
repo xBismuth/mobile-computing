@@ -24,7 +24,7 @@ import {
   IonIcon,
 } from '@ionic/react';
 import { supabase } from '../supabaseClient';
-import { personCircle } from 'ionicons/icons';
+import { personCircle, locateOutline } from 'ionicons/icons';
 import './EditProfile.css';
 
 const EditProfile: React.FC = () => {
@@ -43,6 +43,7 @@ const EditProfile: React.FC = () => {
   const [profilePhotoFile, setProfilePhotoFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>(''); // For live preview
   const [currentPhotoUrl, setCurrentPhotoUrl] = useState<string>(''); // Current saved photo
+  const [gettingLocation, setGettingLocation] = useState(false);
 
   useEffect(() => {
     fetchProfile();
@@ -90,6 +91,53 @@ const EditProfile: React.FC = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  // Get Current Location using Geolocation API
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      setToast({ message: 'Geolocation is not supported by your browser', color: 'danger' });
+      return;
+    }
+
+    setGettingLocation(true);
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        try {
+          // Use OpenStreetMap Nominatim API (free, no key needed)
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+          );
+          const data = await response.json();
+
+          const town = data.address?.town || data.address?.village || data.address?.municipality;
+          const city = data.address?.city || data.address?.city_district;
+          const country = data.address?.country;
+
+          const locationParts = [town, city, country].filter(Boolean);
+          const displayLocation = locationParts.length > 0 
+            ? locationParts.join(', ') 
+            : 'Unknown Location';
+
+          setFormData(prev => ({ ...prev, city: displayLocation }));
+          setToast({ message: `Location set to: ${displayLocation}`, color: 'success' });
+        } catch (err) {
+          setToast({ message: 'Failed to get city name from location', color: 'danger' });
+        } finally {
+          setGettingLocation(false);
+        }
+      },
+      (error) => {
+        setGettingLocation(false);
+        setToast({ 
+          message: error.code === 1 ? 'Location access denied' : 'Failed to get location', 
+          color: 'danger' 
+        });
+      }
+    );
+  };
+  
   // Handle image selection and show preview
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -271,7 +319,7 @@ const EditProfile: React.FC = () => {
                   />
                 </IonItem>
 
-                <IonItem className="custom-item">
+                <IonItem className="custom-item" lines='none'>
                   <IonLabel position="stacked" className="input-label">Gender</IonLabel>
                   <IonSelect
                     value={formData.gender}
@@ -280,19 +328,28 @@ const EditProfile: React.FC = () => {
                   >
                     <IonSelectOption value="male">Male</IonSelectOption>
                     <IonSelectOption value="female">Female</IonSelectOption>
-                    <IonSelectOption value="other">Other</IonSelectOption>
                     <IonSelectOption value="">Prefer not to say</IonSelectOption>
                   </IonSelect>
                 </IonItem>
 
-                <IonItem className="custom-item">
+                <IonItem className="locations-item" lines='none'>
                   <IonLabel position="stacked" className="input-label">City / Address</IonLabel>
-                  <IonInput
-                    value={formData.city}
-                    onIonChange={e => handleChange('city', e.detail.value!)}
-                    placeholder="e.g. Quezon City, Philippines"
-                    clearInput
-                  />
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }} className="location-item">
+                    <IonInput
+                      value={formData.city}
+                      onIonChange={e => handleChange('city', e.detail.value!)}
+                      placeholder="e.g. Quezon City, Philippines"
+                      clearInput
+                      style={{ flex: 1 }}
+                    />
+                    <IonButton 
+                      fill="clear" 
+                      onClick={getCurrentLocation}
+                      disabled={gettingLocation}
+                    >
+                      <IonIcon icon={locateOutline} />
+                    </IonButton>
+                  </div>
                 </IonItem>
 
               </IonList>

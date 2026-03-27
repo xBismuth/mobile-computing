@@ -32,6 +32,11 @@
   margin-bottom: 16px;
 }
 
+.locations-item {
+  --background: transparent;
+  margin-bottom: 16px;
+}
+
 .input-label {
   color: #1e3a8a !important;
   font-weight: 600;
@@ -45,6 +50,27 @@
 
 .custom-item ion-input,
 .custom-item ion-select {
+  background-color: #c9dae9;
+  color: #000000;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  border: 1.5px solid #94a3b8;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.location-item ion-input {
+  background-color: #c9dae9;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+}
+
+.location-item {
   background-color: #c9dae9;
   color: #000000;
   --border-radius: 12px;
