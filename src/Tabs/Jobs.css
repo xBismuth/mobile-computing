@@ -1,19 +1,48 @@
-.jobs-content {
-  --background: #f8fafc;
+.jobs-header {
+  --background: #1e40af !important;
+}
+
+.home-content, .jobs-content {
+  --background: #f8fafc !important;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.greeting {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e2937;
+  margin: 0;
+}
+
+.sub-greeting {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+.notification-btn {
+  --color: #1e2937;
 }
 
 .search-container {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 16px 12px;
+  gap: 8px;
+  padding: 0 16px 12px;
 }
 
 .custom-searchbar {
   flex: 1;
-  --background: white;
+  --background: rgb(249, 249, 249);
   --border-radius: 12px;
   --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  color: #1e2937;
 }
 
 .filter-btn {
@@ -26,6 +55,12 @@
   padding: 0 16px 16px;
   overflow-x: auto;
   white-space: nowrap;
+  --background: #000000;
+}
+
+.filters ion-chip{
+  --background: #bcbcbc;
+  --color: #1e2937;
 }
 
 .active-chip {
@@ -44,11 +79,10 @@
 }
 
 .see-all {
-  color: #3b82f6;
+  color: #2563eb;
   font-size: 0.95rem;
 }
 
-/* ==================== Job Card ==================== */
 .job-list {
   padding: 0 16px;
 }
@@ -58,17 +92,12 @@
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
-}
-
-.job-header {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 14px;
 }
 
-.logo-bg {
+.company-logo .logo-circle {
   width: 48px;
   height: 48px;
   background: #3b82f6;
@@ -78,61 +107,59 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
 }
 
-.job-title-section h3 {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 600;
+.job-info {
+  flex: 1;
+  color: #2e2e2e;
+  font-weight: bold;
+}
+
+.job-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.1rem;
 }
 
 .company-name {
-  margin: 2px 0 0 0;
   color: #64748b;
+  margin: 0 0 8px 0;
   font-size: 0.95rem;
 }
 
-.save-icon {
-  margin-left: auto;
-  color: #94a3b8;
-  font-size: 1.5rem;
+.job-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 10px;
 }
 
-.job-details {
+.job-tags {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 14px;
-  font-size: 0.9rem;
-  color: #475569;
-}
-
-.detail-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.job-footer {
-  display: flex;
-  justify-content: space-between;
+  gap: 8px;
   align-items: center;
 }
 
-.job-type {
+.tag {
   background: #f1f5f9;
-  padding: 6px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #475569;
 }
 
-.quick-apply-btn {
+.quick-apply {
   --background: #2563eb;
   --color: white;
   --border-radius: 20px;
-  font-size: 0.9rem;
-  padding: 0 16px;
-  height: 32px;
+  font-size: 0.85rem;
+  padding: 0 14px;
+  height: 28px;
 }
+
+.save-icon {
+  color: #94a3b8;
+  font-size: 1.4rem;
+}
+
