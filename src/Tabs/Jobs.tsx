@@ -6,8 +6,8 @@ const Jobs: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Job List</IonTitle>
+        <IonToolbar  color="primary">
+          <IonTitle style={{ textAlign: 'center' }}>Available Jobs</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>

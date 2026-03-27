@@ -10,6 +10,7 @@ import {
   IonToolbar,
   IonButtons,
   IonBackButton,
+  IonTitle
 } from '@ionic/react';
 
 import './contact.css';
@@ -23,6 +24,7 @@ const Contacts: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/profile" />
           </IonButtons>
+          <IonTitle>Developers</IonTitle>
         </IonToolbar>
       </IonHeader>
 

@@ -24,7 +24,7 @@
 
 .form-list {
   padding: 0;
-  background: white;
+  background: white !important;
 }
 
 .custom-item {
@@ -50,7 +50,7 @@
 
 .custom-item ion-input,
 .custom-item ion-select {
-  background-color: #c9dae9;
+  background-color: #c9dae9 !important;
   color: #000000;
   --border-radius: 12px;
   --padding-start: 16px;
@@ -62,7 +62,7 @@
 }
 
 .location-item ion-input {
-  background-color: #c9dae9;
+  background-color: #c9dae9 !important;
   --border-radius: 12px;
   --padding-start: 16px;
   --padding-end: 16px;
@@ -71,7 +71,7 @@
 }
 
 .location-item {
-  background-color: #c9dae9;
+  background-color: #c9dae9 !important;
   color: #000000;
   --border-radius: 12px;
   --padding-start: 16px;

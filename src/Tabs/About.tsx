@@ -1,4 +1,12 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonRouter, IonButtons, IonBackButton } from '@ionic/react';
+import { 
+  IonContent, 
+  IonHeader, 
+  IonPage, 
+  IonTitle, 
+  IonToolbar, 
+  useIonRouter, 
+  IonButtons, 
+  IonBackButton } from '@ionic/react';
 import './About.css';
 
 const About: React.FC = () => {
@@ -15,6 +23,7 @@ const About: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/tabs/profile" />
           </IonButtons>
+          <IonTitle>About the App</IonTitle>
         </IonToolbar>
       </IonHeader>
 
