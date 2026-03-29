@@ -111,9 +111,9 @@ const PostJob: React.FC = () => {
         <div className="post-job-container">
           <IonCard className="post-job-card">
             <IonCardContent>
-              <IonList>
-                <IonItem>
-                  <IonLabel position="stacked">Position / Job Title *</IonLabel>
+              <IonList className="post-job-form">
+                <IonItem className="form-item" lines='none'>
+                  <IonLabel position="stacked" className="form-label">Position / Job Title *</IonLabel>
                   <IonInput
                     value={formData.position}
                     onIonChange={e => handleChange('position', e.detail.value!)}
@@ -122,8 +122,8 @@ const PostJob: React.FC = () => {
                   />
                 </IonItem>
 
-                <IonItem>
-                  <IonLabel position="stacked">Company Name *</IonLabel>
+                <IonItem className="form-item" lines='none'>
+                  <IonLabel position="stacked" className="form-label">Company Name *</IonLabel>
                   <IonInput
                     value={formData.company}
                     onIonChange={e => handleChange('company', e.detail.value!)}
@@ -132,8 +132,8 @@ const PostJob: React.FC = () => {
                   />
                 </IonItem>
 
-                <IonItem>
-                  <IonLabel position="stacked">Salary Per Day</IonLabel>
+                <IonItem className="form-item" lines='none'>
+                  <IonLabel position="stacked" className="form-label">Salary Per Day</IonLabel>
                   <IonInput
                     value={formData.salary}
                     onIonChange={e => handleChange('salary', e.detail.value!)}
@@ -142,8 +142,8 @@ const PostJob: React.FC = () => {
                   />
                 </IonItem>
 
-                <IonItem>
-                  <IonLabel position="stacked">Location *</IonLabel>
+                <IonItem className="form-item" lines='none'>
+                  <IonLabel position="stacked" className="form-label">Location *</IonLabel>
                   <IonInput
                     value={formData.location}
                     onIonChange={e => handleChange('location', e.detail.value!)}
@@ -152,11 +152,13 @@ const PostJob: React.FC = () => {
                   />
                 </IonItem>
 
-                <IonItem>
-                  <IonLabel position="stacked">Job Type</IonLabel>
+                <IonItem className="form-item" lines='none'>
+                  <IonLabel position="stacked" className="form-label">Job Type</IonLabel>
                   <IonSelect
+                    label="Select Job Type"
                     value={formData.typeJobTime}
                     onIonChange={e => handleChange('typeJobTime', e.detail.value!)}
+                    placeholder="Job Type"
                   >
                     <IonSelectOption value="Full-time">Full-time</IonSelectOption>
                     <IonSelectOption value="Part-time">Part-time</IonSelectOption>
@@ -165,8 +167,8 @@ const PostJob: React.FC = () => {
                   </IonSelect>
                 </IonItem>
 
-                <IonItem>
-                  <IonLabel position="stacked">Number of Open Positions</IonLabel>
+                <IonItem className="form-item" lines='none'>
+                  <IonLabel position="stacked" className="form-label">Number of Open Positions</IonLabel>
                   <IonInput
                     type="number"
                     value={formData.quantity}
@@ -175,8 +177,8 @@ const PostJob: React.FC = () => {
                   />
                 </IonItem>
 
-                <IonItem>
-                  <IonLabel position="stacked">Job Description (Optional)</IonLabel>
+                <IonItem className="form-item" lines='none'>
+                  <IonLabel position="stacked" className="form-label">Job Description (Optional)</IonLabel>
                   <IonTextarea
                     value={formData.description}
                     onIonChange={e => handleChange('description', e.detail.value!)}

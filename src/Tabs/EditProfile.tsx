@@ -337,6 +337,7 @@ const EditProfile: React.FC = () => {
                 <IonItem className="custom-item" lines='none'>
                   <IonLabel position="stacked" className="input-label">Gender</IonLabel>
                   <IonSelect
+                    label="Select Gender"
                     value={formData.gender}
                     onIonChange={e => handleChange('gender', e.detail.value!)}
                     placeholder="Select gender"

@@ -1,18 +1,57 @@
 .post-job-container {
   padding: 16px;
+  background: #3168B9;
+  min-height: 100%;
 }
 
 .post-job-card {
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background: white !important;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.post-job-form {
+  background-color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.post-job-form ion-item {
+  --background: transparent;
+  margin-bottom: 12px;
+}
+
+.form-label {
+  color: #1e3a8a !important;
+  font-weight: 600;
+  margin-bottom: 8px !important;
+}
+
+.post-job-form ion-input,
+.post-job-form ion-textarea,
+.post-job-form ion-select {
+  --background: #c9dae9 !important;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --color: #000000;
+  color: #000000
+}
+
+.post-job-form ion-input:focus-within,
+.post-job-form ion-textarea:focus-within,
+.post-job-form ion-select:focus-within {
+  border-color: #3b82f6;
 }
 
 .post-job-btn {
   --background: #3b82f6;
   --color: white;
-  height: 52px;
+  height: 54px;
   font-size: 1.1rem;
   font-weight: 600;
   border-radius: 12px;
   margin-top: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
