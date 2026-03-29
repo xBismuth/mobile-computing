@@ -1,95 +1,96 @@
-import React from 'react';
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonSearchbar,
-  IonButton,
-  IonIcon,
-  IonChip,
-} from '@ionic/react';
-import { 
-  notificationsOutline, 
-  filterOutline,
-  heartOutline
-} from 'ionicons/icons';
-import './Home.css';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+import { supabase } from '../supabaseClient';
+import SeekerHome from '../pages/SeekerHome';
+import RecruiterHome from '../pages/RecruiterHome';
+import { IonPage, IonContent, IonSpinner } from '@ionic/react';
 
 const Home: React.FC = () => {
-  const userName = "User"; 
+  const history = useHistory();
+  const [role, setRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  return (
-    <IonPage>
-      <IonHeader class="home-header">
-        <IonToolbar>
-          <div className="header-content home-header">
-            <div>
-              <h1 className="greeting">Hi, {userName}!</h1>
-              <p className="sub-greeting">Find your next opportunity 👋</p>
-            </div>
-            <IonButton fill="clear" className="notification-btn">
-              <IonIcon icon={notificationsOutline} size="large" />
-            </IonButton>
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkUserRole = async () => {
+      try {
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+        if (authError || !user) {
+          if (isMounted) history.replace('/login');
+          return;
+        }
+
+        const { data, error: dbError } = await supabase
+          .from('users')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+
+        if (dbError && dbError.code !== 'PGRST116') {
+          console.error('Database error:', dbError);
+          if (isMounted) setError('Failed to load user role');
+          return;
+        }
+
+        if (isMounted) {
+          if (data && data.role) {
+            console.log('Setting role to:', data.role);
+            setRole(data.role);
+          } else {
+            // No role found → default to seeker
+            console.log('No role found, defaulting to seeker');
+            setRole('seeker');
+          }
+        }
+      } catch (err) {
+        console.error('Role check failed:', err);
+        if (isMounted) setError('Something went wrong');
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    checkUserRole();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [history]);
+
+  if (loading) {
+    return (
+      <IonPage>
+        <IonContent fullscreen className="ion-padding">
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <IonSpinner />
           </div>
-        </IonToolbar>
-      </IonHeader>
+        </IonContent>
+      </IonPage>
+    );
+  }
 
-      <IonContent fullscreen className="home-content">
-        {/* Search Bar */}
-        <div className="search-container" style={{ paddingTop: '20px' }}>
-          <IonSearchbar
-            placeholder="Search jobs, companies..."
-            className="custom-searchbar"
-          />
-          <IonButton fill="clear" className="filter-btn">
-            <IonIcon icon={filterOutline} />
-          </IonButton>
-        </div>
-
-        {/* Filters */}
-        <div className="filters">
-          <IonChip color="primary" className="active-chip">
-            All Jobs
-          </IonChip>
-          <IonChip>Full-time</IonChip>
-          <IonChip>Part-time</IonChip>
-          <IonChip>Nearby</IonChip>
-        </div>
-
-        {/* Latest Opportunities */}
-        <div className="section-header">
-          <h2>Saved Opportunities</h2>
-          <span className="see-all">See all</span>
-        </div>
-
-        {/* Job Cards */}
-        <div className="job-list">
-          {/* Job Card 1 */}
-          <div className="job-card">
-            <div className="company-logo">
-              <div className="logo-circle">C</div>
-            </div>
-            <div className="job-info">
-              <h3>Barista</h3>
-              <p className="company-name">Café Delight</p>
-              <div className="job-meta">
-                <span>📍 Quezon City</span>
-                <span>₱15,000 - ₱18,000</span>
-                <span>🕒 2 hours ago</span>
-              </div>
-              <div className="job-tags">
-                <span className="tag">Full-time</span>
-                <IonButton fill="clear" className="quick-apply">Quick Apply</IonButton>
-              </div>
-            </div>
-            <IonIcon icon={heartOutline} className="save-icon" />
+  if (error) {
+    return (
+      <IonPage>
+        <IonContent>
+          <div style={{ padding: '20px', textAlign: 'center' }}>
+            <h2>Error</h2>
+            <p>{error}</p>
           </div>
-        </div>
-      </IonContent>
-    </IonPage>
-  );
+        </IonContent>
+      </IonPage>
+    );
+  }
+
+  // Role-based rendering
+  if (role === 'recruiter') {
+    return <RecruiterHome />;
+  }
+
+  return <SeekerHome />;
 };
 
 export default Home;

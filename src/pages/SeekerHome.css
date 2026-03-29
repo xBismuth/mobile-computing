@@ -1,0 +1,173 @@
+.seeker-home-header {
+  background-color: #ffffff !important;
+}
+
+.seeker-home-content {
+  --background: #f8fafc !important;
+}
+
+.seeker-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.seeker-greeting {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e2937;
+  margin: 0;
+}
+
+.seeker-sub-greeting {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+.seeker-notification-btn {
+  --color: #1e2937;
+}
+
+.seeker-search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 12px;
+}
+
+.seeker-custom-searchbar {
+  flex: 1;
+  --background: rgb(249, 249, 249);
+  --border-radius: 12px;
+  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  color: #1e2937;
+}
+
+.seeker-filter-btn {
+  --color: #64748b;
+}
+
+.seeker-filters {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+  overflow-x: auto;
+  white-space: nowrap;
+  --background: #000000;
+}
+
+.seeker-filters ion-chip{
+  --background: #bcbcbc;
+  --color: #1e2937;
+}
+
+.seeker-active-chip {
+  background: #2563eb !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.seeker-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px 12px;
+  font-weight: 600;
+  color: #1e2937;
+}
+
+.seeker-see-all {
+  color: #2563eb;
+  font-size: 0.95rem;
+}
+
+.seeker-job-list {
+  padding: 0 16px;
+}
+
+.seeker-job-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 14px;
+}
+
+.seeker-company-logo .seeker-logo-circle {
+  width: 48px;
+  height: 48px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.seeker-job-info {
+  flex: 1;
+  color: #2e2e2e;
+  font-weight: bold;
+}
+
+.seeker-job-info2 {
+  color: #2e2e2e;
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.seeker-job-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.25rem;
+}
+
+.seeker-company-name {
+  color: #64748b;
+  margin: 0 0 8px 0 !important;
+  font-size: 0.95rem;
+}
+
+.seeker-job-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.seeker-job-tags {
+  display: flex;
+  justify-content: flex-end !important;
+  gap: 8px;
+  align-items: center !important;
+}
+
+.seeker-tag {
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  color: #453636;
+}
+
+.seeker-quick-apply {
+  --background: #2563eb;
+  --color: white;
+  --border-radius: 20px;
+  font-size: 0.85rem;
+  padding: 0 14px;
+  height: 28px;
+}
+
+.seeker-save-icon {
+  color: #94a3b8;
+  font-size: 1.4rem;
+}
+
