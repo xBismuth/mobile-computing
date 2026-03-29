@@ -22,14 +22,18 @@ import {
   IonBackButton,
   IonAvatar,
   IonIcon,
+  useIonLoading
 } from '@ionic/react';
 import { supabase } from '../supabaseClient';
 import { personCircle, locateOutline } from 'ionicons/icons';
+import { Geolocation } from '@capacitor/geolocation';
 import './EditProfile.css';
+
 
 const EditProfile: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<{ message: string; color: 'success' | 'danger' } | null>(null);
+  const [presentLoading, dismissLoading] = useIonLoading();
 
   const [formData, setFormData] = useState({
     firstname: '',
@@ -92,49 +96,62 @@ const EditProfile: React.FC = () => {
   };
 
   // Get Current Location using Geolocation API
-  const getCurrentLocation = () => {
-    if (!navigator.geolocation) {
-      setToast({ message: 'Geolocation is not supported by your browser', color: 'danger' });
-      return;
+ const getLocation = async () => {
+  try {
+    // STEP 1: Check if the app already has permission
+    let check = await Geolocation.checkPermissions();
+    
+    // STEP 2: If not granted, trigger the NATIVE Android Popup
+    if (check.location !== 'granted') {
+      const request = await Geolocation.requestPermissions();
+      if (request.location !== 'granted') {
+        setToast({ message: "Permission denied by user.", color: 'danger' });
+        return;
+      }
     }
 
+    // STEP 3: Now that we have permission, start the loading UI
     setGettingLocation(true);
+    await presentLoading({ message: 'Accessing GPS...', spinner: 'crescent' });
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
+    // STEP 4: Get coordinates with a longer timeout
+    const coordinates = await Geolocation.getCurrentPosition({
+      enableHighAccuracy: true, // Uses GPS satellites (Best for Manggahan)
+      timeout: 15000,           // Give it 15 seconds to find a signal
+      maximumAge: 3000          // Use a location no older than 3 seconds
+    });
 
-        try {
-          // Use OpenStreetMap Nominatim API (free, no key needed)
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
-          );
-          const data = await response.json();
+    const { latitude, longitude } = coordinates.coords;
 
-          const subdistrict = data.address?.subdistrict || data.address?.neighbourhood || data.address?.suburb;
-          const city = data.address?.city || data.address?.city_district;
-          const country = data.address?.country;
-
-          const locationString = [subdistrict, city, country].filter(Boolean) .join(', ');
-          const finalLocation = locationString || 'Unknown Location';
-
-          setFormData(prev => ({ ...prev, city: finalLocation }));
-          setToast({ message: `Location set to: ${finalLocation}`, color: 'success' });
-        } catch (err) {
-          setToast({ message: 'Failed to get city name from location', color: 'danger' });
-        } finally {
-          setGettingLocation(false);
-        }
-      },
-      (error) => {
-        setGettingLocation(false);
-        setToast({ 
-          message: error.code === 1 ? 'Location access denied' : 'Failed to get location', 
-          color: 'danger' 
-        });
-      }
+    // STEP 5: Reverse Geocode (Nominatim)
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
     );
-  };
+    const data = await response.json();
+    const addr = data.address;
+
+    // Format: "Manggahan, Pasig, Philippines"
+    const subdistrict = addr?.suburb || addr?.neighbourhood || addr?.village || addr?.quarter;
+    const city = addr?.city || addr?.municipality || addr?.town;
+    const country = addr?.country;
+
+    const displayLocation = [subdistrict, city, country].filter(Boolean).join(', ');
+
+    setFormData(prev => ({ ...prev, city: displayLocation }));
+    setToast({ message: "Location updated!", color: 'success' });
+
+  } catch (error: any) {
+    console.error("GPS Error:", error);
+    // This usually triggers if the phone is indoors or GPS hardware is busy
+    setToast({ 
+      message: "GPS Timeout. Try moving near a window or check App Permissions in Settings.", 
+      color: 'danger' 
+    });
+  } finally {
+    setGettingLocation(false);
+    await dismissLoading();
+  }
+};
   
   // Handle image selection and show preview
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -342,7 +359,7 @@ const EditProfile: React.FC = () => {
                     />
                     <IonButton 
                       fill="clear" 
-                      onClick={getCurrentLocation}
+                      onClick={getLocation}
                       disabled={gettingLocation}
                     >
                       <IonIcon icon={locateOutline} />
