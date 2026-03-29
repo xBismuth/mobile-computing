@@ -9,12 +9,20 @@ import {
   IonButton,
   IonIcon,
   IonChip,
+  IonRefresher,
+  IonRefresherContent,
+  RefresherEventDetail,
 } from '@ionic/react';
 import { notificationsOutline, filterOutline, heartOutline, locationOutline, timeOutline } from 'ionicons/icons';
 import './SeekerHome.css';
 
 const SeekerHome: React.FC = () => {
   const userName = "Jayve";   // Later: fetch from user data
+
+  const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
+    // Future: add data refresh logic here (fetch user data, jobs, etc.)
+    event.detail.complete();
+  };
 
   return (
     <IonPage>
@@ -33,6 +41,10 @@ const SeekerHome: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen className="seeker-home-content">
+        {/* Refresh Gesture */}
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
         {/* Search Bar */}
         <div className="seeker-search-container" style={{ paddingTop: '20px' }}>
           <IonSearchbar

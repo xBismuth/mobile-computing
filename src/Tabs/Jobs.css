@@ -69,7 +69,7 @@
   font-weight: 600;
 }
 
-.section-header {
+.job-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,7 +94,10 @@
   margin-bottom: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
   gap: 14px;
+  width: 100%;
 }
 
 .company-logo .logo-circle {
@@ -117,36 +120,36 @@
 }
 
 .job-info h3 {
-  margin: 0 0 4px 0;
-  font-size: 1.1rem;
+  margin: 0 0 0 0;
+  font-size: 1.25rem;
 }
 
 .company-name {
   color: #64748b;
-  margin: 0 0 8px 0;
   font-size: 0.95rem;
 }
 
 .job-meta {
   display: flex;
   gap: 8px;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: #64748b;
   margin-bottom: 10px;
 }
 
 .job-tags {
   display: flex;
+  justify-content: flex-end !important;
   gap: 8px;
-  align-items: center;
+  align-items: center !important;
 }
 
 .tag {
   background: #f1f5f9;
   padding: 4px 10px;
   border-radius: 20px;
-  font-size: 0.8rem;
-  color: #475569;
+  font-size: 0.95rem;
+  color: #453636;
 }
 
 .quick-apply {

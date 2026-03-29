@@ -1,36 +1,140 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonContent,
+  IonHeader,
   IonPage,
+  IonTitle,
+  IonToolbar,
   IonSearchbar,
   IonButton,
   IonIcon,
   IonChip,
-  IonHeader,
-  IonToolbar,
-  IonTitle
+  IonSpinner,
+  IonRefresher,
+  IonRefresherContent,
+  RefresherEventDetail,
 } from '@ionic/react';
 import { 
   filterOutline, 
   heartOutline, 
 } from 'ionicons/icons';
+import { supabase } from '../supabaseClient';
 import './Jobs.css';
 
 const Jobs: React.FC = () => {
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [filteredJobs, setFilteredJobs] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeFilter, setActiveFilter] = useState<'all' | 'Full-time' | 'Part-time' | 'nearby'>('all');
+  const [userCity, setUserCity] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchUserCityAndJobs();
+  }, []);
+
+  const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
+    await fetchUserCityAndJobs();
+    event.detail.complete();
+  };
+
+  useEffect(() => {
+    fetchJobs(activeFilter);
+  }, [activeFilter]);
+
+  const fetchJobs = async (filter: 'all' | 'Full-time' | 'Part-time' | 'nearby' = 'all') => {
+    let query = supabase.from('jobs').select('*');
+
+    if (filter === 'Full-time') {
+      query = query.eq('typeJobTime', 'Full-time');
+    } else if (filter === 'Part-time') {
+      query = query.eq('typeJobTime', 'Part-time');
+    }
+
+    const { data: jobData, error } = await query.order('created_at', { ascending: false });
+    if (error) {
+      console.error('Error fetching jobs:', error);
+      setJobs([]);
+      setFilteredJobs([]);
+      return;
+    }
+
+    setJobs(jobData || []);
+    setFilteredJobs(jobData || []);
+    setLoading(false);
+  };
+
+  // Fetch user's city and jobs through DB filter
+  const fetchUserCityAndJobs = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // Get user's city
+    const { data: userData } = await supabase
+      .from('users')
+      .select('city')
+      .eq('id', user.id)
+      .single();
+
+    if (userData?.city) setUserCity(userData.city);
+
+    // Get jobs list for initial filter
+    await fetchJobs(activeFilter);
+  };
+
+  // Filter jobs based on search and location
+  useEffect(() => {
+    let result = jobs;
+
+    // Search filter (passive, live as user types)
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter(job =>
+        job.position?.toLowerCase().includes(term) ||
+        job.company?.toLowerCase().includes(term) ||
+        job.location?.toLowerCase().includes(term)
+      );
+    }
+
+    // Nearby filter (client-side because this depends on userCity)
+    if (activeFilter === 'nearby' && userCity) {
+      const cityLower = userCity.toLowerCase();
+      result = result.filter(job =>
+        job.location?.toLowerCase().includes(cityLower) ||
+        cityLower.includes(job.location?.toLowerCase() || '')
+      );
+    }
+
+    setFilteredJobs(result);
+  }, [searchTerm, jobs, userCity, activeFilter]);
+
   return (
     <IonPage>
-       <IonHeader>
-          <IonToolbar color="primary" class="jobs-header">
-              <IonTitle style={{ textAlign: 'center' }}>All Available Jobs</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+      <IonHeader>
+        <IonToolbar color="primary">
+          <IonTitle style={{ textAlign: 'center' }}>All Available Jobs</IonTitle>
+        </IonToolbar>
+      </IonHeader>
 
-      <IonContent fullscreen className="home-content">
+      <IonContent fullscreen className="jobs-content">
 
+        {/* Refresh Gesture */}
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
+
+        {loading ? (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <IonSpinner />
+          </div>
+        ) : (
+          <>
         {/* Search Bar */}
-        <div className="search-container" style={{ paddingTop: '20px' }}>
+        <div className="search-container" style={{ marginTop: '20px' }}>
           <IonSearchbar
-            placeholder="Search jobs, companies..."
+            placeholder="Search jobs, companies, location..."
+            value={searchTerm}
+            onIonInput={e => setSearchTerm(e.detail.value ?? '')}
             className="custom-searchbar"
           />
           <IonButton fill="clear" className="filter-btn">
@@ -40,85 +144,74 @@ const Jobs: React.FC = () => {
 
         {/* Filters */}
         <div className="filters">
-          <IonChip color="primary" className="active-chip">All Jobs</IonChip>
-          <IonChip>Full-time</IonChip>
-          <IonChip>Part-time</IonChip>
-          <IonChip>Nearby</IonChip>
+          <IonChip 
+            color={activeFilter === 'all' ? "primary" : undefined}
+            onClick={() => setActiveFilter('all')}
+            className={activeFilter === 'all' ? "active-chip" : ""}
+          >
+            All Jobs
+          </IonChip>
+          <IonChip 
+            color={activeFilter === 'Full-time' ? "primary" : undefined}
+            onClick={() => setActiveFilter('Full-time')}
+            className={activeFilter === 'Full-time' ? "active-chip" : ""}
+          >
+            Full-time
+          </IonChip>
+          <IonChip 
+            color={activeFilter === 'Part-time' ? "primary" : undefined}
+            onClick={() => setActiveFilter('Part-time')}
+            className={activeFilter === 'Part-time' ? "active-chip" : ""}
+          >
+            Part-time
+          </IonChip>
+          <IonChip 
+            color={activeFilter === 'nearby' ? "primary" : undefined}
+            onClick={() => setActiveFilter('nearby')}
+            className={activeFilter === 'nearby' ? "active-chip" : ""}
+          >
+            Nearby
+          </IonChip>
         </div>
 
-        {/* Latest Opportunities */}
-        <div className="section-header">
-          <h2>Latest Opportunities</h2>
-          <span className="see-all">See all</span>
-        </div>
-
-        {/* Job Cards List */}
+        {/* Job List */}
         <div className="job-list">
+          {filteredJobs.length === 0 ? (
+            <p style={{ textAlign: 'center', padding: '40px 20px', color: '#64748b' }}>
+              No jobs found.
+            </p>
+          ) : (
+            filteredJobs.map((job) => (
+            <div key={job.job_id} className="job-card">
+                <div className="company-logo">
+                  <div className="logo-circle">
+                    {job.company?.charAt(0) || 'J'}
+                  </div>
+                </div>
 
-          {/* Job Card 1 */}
-          <div className="job-card">
-            <div className="company-logo">
-              <div className="logo-circle">C</div>
-            </div>
-            <div className="job-info">
-              <h3>Barista</h3>
-              <p className="company-name">Café Delight</p>
-              <div className="job-meta">
-                <span>📍 Quezon City</span>
-                <span>₱15,000 - ₱18,000</span>
-                <span>🕒 2 hours ago</span>
+              <div className="job-info">
+                <h3>{job.position}</h3>
+                <span className="company-name">{job.company}</span>
               </div>
-              <div className="job-tags">
-                <span className="tag">Full-time</span>
-                <IonButton fill="clear" className="quick-apply">Quick Apply</IonButton>
-              </div>
-            </div>
-            <IonIcon icon={heartOutline} className="save-icon" />
-          </div>
+              <IonIcon icon={heartOutline} className="save-icon" />
 
-          {/* Job Card 2 */}
-          <div className="job-card">
-            <div className="company-logo">
-              <div className="logo-circle">Q</div>
+              <div className="recruiter-job-info2">
+                  <div className="recruiter-job-meta">
+                    <span>📍 {job.location || 'Not specified'}</span>
+                    <span>💲 {job.salary + ' / day' || 'Salary not specified'}</span>
+                    <span>🕒 {new Date(job.created_at).toLocaleDateString()}</span>
+                  </div>
+                  <div className="recruiter-job-tags">
+                    <span className="recruiter-tag">{job.typeJobTime}</span>
+                    <IonButton fill="clear" className="seeker-quick-apply">Quick Apply</IonButton>
+                  </div>
+                </div>
             </div>
-            <div className="job-info">
-              <h3>Delivery Rider</h3>
-              <p className="company-name">QuickDeliver</p>
-              <div className="job-meta">
-                <span>📍 Manila</span>
-                <span>₱20,000 - ₱25,000</span>
-                <span>🕒 5 hours ago</span>
-              </div>
-              <div className="job-tags">
-                <span className="tag">Full-time</span>
-                <IonButton fill="clear" className="quick-apply">Quick Apply</IonButton>
-              </div>
-            </div>
-            <IonIcon icon={heartOutline} className="save-icon" />
-          </div>
-
-          {/* Job Card 3 */}
-          <div className="job-card">
-            <div className="company-logo">
-              <div className="logo-circle">T</div>
-            </div>
-            <div className="job-info">
-              <h3>Sales Associate</h3>
-              <p className="company-name">TechHub Store</p>
-              <div className="job-meta">
-                <span>📍 Makati</span>
-                <span>₱16,000 - ₱20,000</span>
-                <span>🕒 1 day ago</span>
-              </div>
-              <div className="job-tags">
-                <span className="tag">Full-time</span>
-                <IonButton fill="clear" className="quick-apply">Quick Apply</IonButton>
-              </div>
-            </div>
-            <IonIcon icon={heartOutline} className="save-icon" />
-          </div>
-
+            ))
+          )}
         </div>
+          </>
+        )}
       </IonContent>
     </IonPage>
   );

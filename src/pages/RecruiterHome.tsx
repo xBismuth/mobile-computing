@@ -10,6 +10,9 @@ import {
   IonIcon,
   IonSpinner,
   IonToast,
+  IonRefresher,
+  IonRefresherContent,
+  RefresherEventDetail,
 } from '@ionic/react';
 import { addOutline, notificationsOutline, heartOutline } from 'ionicons/icons';
 import { supabase } from '../supabaseClient';
@@ -61,6 +64,11 @@ const RecruiterHome: React.FC = () => {
     }
   };
 
+  const handleRefresh = async (event: CustomEvent<RefresherEventDetail>) => {
+    await fetchUserAndJobs();
+    event.detail.complete();
+  };
+
   const handleAddJob = () => {
   history.push('/recruiter/post-job');  
   };
@@ -84,6 +92,11 @@ const RecruiterHome: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen className="recruiter-home-content">
+
+        {/* Refresh Gesture */}
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
 
         {/* Posted Jobs Header + Add Button */}
         <div className="recruiter-section-header" style={{ marginTop: '10px' }}>
