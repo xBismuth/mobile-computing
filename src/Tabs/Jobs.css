@@ -163,6 +163,17 @@
 
 .save-icon {
   color: #94a3b8;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-left: auto;
+}
+
+.save-icon.saved {
+  color: #ef4444 !important;
+}
+
+.save-icon:hover {
+  color: #ef4444;
 }
 
