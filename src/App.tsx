@@ -36,6 +36,7 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
+import EditJob from './pages/EditJob';
 
 
 setupIonicReact();
@@ -71,6 +72,7 @@ const App: React.FC = () => {
           <Route path="/profile/about" component={About} exact />
           <Route path="/profile/developers" component={Contacts} exact />
           <Route path="/recruiter/post-job" component={PostJob} exact />
+          <Route path="/recruiter/edit-job/:jobId" component={EditJob} exact />
 
           {/* Tabs Routes – only accessible when logged in */}
           <Route path="/tabs">

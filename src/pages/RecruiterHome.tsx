@@ -17,7 +17,7 @@ import {
   IonSearchbar,
   IonChip
 } from '@ionic/react';
-import { addOutline, notificationsOutline, heartOutline, heart } from 'ionicons/icons';
+import { addOutline, notificationsOutline, createOutline, heart } from 'ionicons/icons';
 import { supabase } from '../supabaseClient';
 import './RecruiterHome.css';
 
@@ -28,10 +28,8 @@ const RecruiterHome: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<{ message: string; color: 'success' | 'danger' } | null>(null);
   const [savedJobs, setSavedJobs] = useState<any[]>([]);
-  const [activeFilter, setActiveFilter] = useState<'all' | 'Full-time' | 'Part-time' | 'nearby'>('all');
   const [filteredSavedJobs, setFilteredSavedJobs] = useState<any[]>([]);
   const [userCity, setUserCity] = useState<string>('');
-  const [searchTerm, setSearchTerm] = useState('');
   
   useIonViewWillEnter(() => {
       fetchUserDataAndSavedJobs();
@@ -208,8 +206,11 @@ const RecruiterHome: React.FC = () => {
                   <h3>{job.position}</h3>
                   <span className="recruiter-company-name">{job.company}</span>
                 </div>
-                <IonIcon icon={heartOutline} className="recruiter-save-icon" />
-
+                <IonIcon 
+                    icon={createOutline} 
+                    className="recruiter-edit-icon"
+                    onClick={() => history.push(`/recruiter/edit-job/${job.job_id}`)}
+                  />
 
                 <div className="recruiter-job-info2">
                   <div className="recruiter-job-meta">
@@ -218,6 +219,7 @@ const RecruiterHome: React.FC = () => {
                     <span>🕒 {new Date(job.created_at).toLocaleDateString()}</span>
                   </div>
                   <div className="recruiter-job-tags">
+                    <span className="recruiter-tag">{job.typeJobTime}</span>
                     <span className={`recruiter-tag ${job.status === 'active' ? 'success' : 'danger'}`}>
                       {job.status || 'Closed'}
                     </span>

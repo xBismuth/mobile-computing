@@ -148,6 +148,21 @@ const Jobs: React.FC = () => {
     event.detail.complete();
   };
 
+  if (loading) {
+      return (
+        <IonPage>
+          <IonContent fullscreen className="ion-padding">
+            <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+              <IonRefresherContent></IonRefresherContent>
+            </IonRefresher>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+              <IonSpinner />
+            </div>
+          </IonContent>
+        </IonPage>
+      );
+    }
+
   return (
     <IonPage>
       <IonHeader>

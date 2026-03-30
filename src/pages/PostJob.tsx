@@ -38,7 +38,7 @@ const PostJob: React.FC = () => {
     company: '',
     salary: '',
     location: '',
-    'full-location': '',
+    'full_location': '',
     quantity: 1,
     typeJobTime: 'full-time',     // New field
     description: '',
@@ -46,7 +46,7 @@ const PostJob: React.FC = () => {
 
   const handleChange = (field: keyof typeof formData, value: string | number) => {
     if (field === 'location') {
-      setFormData(prev => ({ ...prev, location: value as string, 'full-location': value as string }));
+      setFormData(prev => ({ ...prev, location: value as string, 'full_location': value as string }));
     } else {
       setFormData(prev => ({ ...prev, [field]: value }));
     }
@@ -75,7 +75,7 @@ const PostJob: React.FC = () => {
           company: formData.company.trim(),
           salary: formData.salary.trim() || null,
           location: formData.location.trim(),
-          'full-location': formData['full-location'].trim(),
+          'full_location': formData['full_location'].trim(),
           quantity: Number(formData.quantity) || 1,
           typeJobTime: formData.typeJobTime,        // New
           status: 'active',                         // Always active on post
@@ -94,7 +94,7 @@ const PostJob: React.FC = () => {
           company: '',
           salary: '',
           location: '',
-          'full-location': '',
+          'full_location': '',
           quantity: 1,
           typeJobTime: 'full-time',
           description: '',
@@ -146,10 +146,10 @@ const PostJob: React.FC = () => {
     // Get city for location field
     const city = addr?.city || addr?.municipality || addr?.town || 'Unknown City';
     
-    // Get full address for full-location field
+    // Get full address for full_location field
     const fullAddress = data.display_name || [city, addr?.country].filter(Boolean).join(', ');
 
-    setFormData(prev => ({ ...prev, location: city, 'full-location': fullAddress }));
+    setFormData(prev => ({ ...prev, location: city, 'full_location': fullAddress }));
     setToast({ message: "Location updated!", color: 'success' });
 
   } catch {
